@@ -1,0 +1,71 @@
+2025-07-04 01:29:04,594 - INFO - 启动HTTP服务器在 127.0.0.1:5000
+2025-07-04 01:29:04,603 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-04 01:29:04,604 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-04 01:29:27,806 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:27] "GET /health HTTP/1.1" 200 -
+2025-07-04 01:29:32,665 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:32] "GET / HTTP/1.1" 200 -
+2025-07-04 01:29:32,770 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:32] "GET /static/js/app.js HTTP/1.1" 200 -
+2025-07-04 01:29:32,771 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:32] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-07-04 01:29:33,231 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:33] "GET /health HTTP/1.1" 200 -
+2025-07-04 01:29:33,611 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:33] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-04 01:29:35,239 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:35] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:37,236 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:37] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:38,273 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:38] "GET /capabilities HTTP/1.1" 200 -
+2025-07-04 01:29:39,233 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:39] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:41,232 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:41] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:43,235 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:43] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:44,708 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:44] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:45,232 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:45] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:47,237 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:47] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:48,671 - INFO - 开始执行操作到Arduino...
+2025-07-04 01:29:48,671 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:48] "POST /upload HTTP/1.1" 200 -
+2025-07-04 01:29:48,717 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:48] "[31m[1mGET /upload?port=/dev/ttyS7&part=atmega328p&programmer=arduino&baud=115200&operation_only=true&memory_operations=lfuse:r:-:h,hfuse:r:-:h,efuse:r:-:h HTTP/1.1[0m" 405 -
+2025-07-04 01:29:48,732 - INFO - 操作过程中发生异常: [Errno 2] No such file or directory: 'gpio'
+2025-07-04 01:29:48,733 - ERROR - Arduino operation failed with exception
+Traceback (most recent call last):
+  File "/Users/raspberry/Documents/Develop/FangTangLink/基础Arduino上传.py", line 168, in perform_arduino_operation
+    if not control_arduino_reset(reset=True):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/raspberry/Documents/Develop/FangTangLink/基础Arduino上传.py", line 58, in control_arduino_reset
+    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/opencv/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/opencv/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/opt/anaconda3/envs/opencv/lib/python3.12/subprocess.py", line 1953, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'gpio'
+2025-07-04 01:29:49,232 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:49] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:51,237 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:51] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:53,239 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:53] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:55,237 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:55] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:57,232 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:57] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:29:59,244 - INFO - 127.0.0.1 - - [04/Jul/2025 01:29:59] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:01,232 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:01] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:03,232 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:03] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:05,242 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:05] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:07,235 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:07] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:09,266 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:09] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:11,249 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:11] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:13,239 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:13] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:15,233 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:15] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:17,237 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:17] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:19,240 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:19] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:21,237 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:21] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:23,246 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:23] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:25,239 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:25] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:27,236 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:27] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:29,232 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:29] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:31,239 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:31] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:33,240 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:33] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:35,237 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:35] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:37,233 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:37] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:39,237 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:39] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:41,232 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:41] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:43,239 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:43] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:45,234 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:45] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:47,237 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:47] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:49,236 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:49] "GET /status HTTP/1.1" 200 -
+2025-07-04 01:30:51,232 - INFO - 127.0.0.1 - - [04/Jul/2025 01:30:51] "GET /status HTTP/1.1" 200 -
