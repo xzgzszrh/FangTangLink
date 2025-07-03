@@ -5,18 +5,16 @@
 # 设置默认参数
 HOST="0.0.0.0"
 PORT="5000"
-PYTHON_CMD="python3"
 
-# 检查 Python 是否可用
-if ! command -v $PYTHON_CMD &> /dev/null; then
-    echo "错误: Python3 未找到，请先安装 Python3"
-    exit 1
-fi
+# 激活conda环境
+echo "激活conda环境..."
+source /opt/anaconda3/etc/profile.d/conda.sh
+conda activate opencv
 
 # 检查依赖是否安装
-if ! $PYTHON_CMD -c "import flask" &> /dev/null; then
+if ! python -c "import flask" &> /dev/null; then
     echo "警告: Flask 未安装，正在安装依赖..."
-    pip3 install -r requirements.txt
+    conda install flask flask-cors requests -y
 fi
 
 # 检查 avrdude 是否可用
@@ -39,4 +37,4 @@ echo "按 Ctrl+C 停止服务"
 echo "=========================="
 
 # 启动服务器
-$PYTHON_CMD 基础Arduino上传.py --host $HOST --port $PORT
+python 基础Arduino上传.py --host $HOST --port $PORT
