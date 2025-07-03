@@ -38,3 +38,4 @@ echo "=========================="
 
 # 启动服务器
 python 基础Arduino上传.py --host $HOST --port $PORT
+

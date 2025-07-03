@@ -181,3 +181,28 @@ FileNotFoundError: [Errno 2] No such file or directory: 'gpio'
 2025-07-04 02:36:38,126 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:38] "GET /status HTTP/1.1" 200 -
 2025-07-04 02:36:40,121 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:40] "GET /status HTTP/1.1" 200 -
 2025-07-04 02:36:42,127 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:42] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:47:13,504 - INFO - 启动WebSocket服务器在 0.0.0.0:5000
+2025-07-04 02:47:37,017 - INFO - 启动WebSocket服务器在 0.0.0.0:5000
+2025-07-04 02:48:15,473 - INFO - 启动WebSocket服务器在 0.0.0.0:5001
+2025-07-04 02:48:15,492 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://198.18.0.1:5001
+2025-07-04 02:48:15,493 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-04 02:48:26,849 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:26] "GET / HTTP/1.1" 200 -
+2025-07-04 02:48:26,892 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:26] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-07-04 02:48:26,894 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:26] "GET /static/js/app.js HTTP/1.1" 200 -
+2025-07-04 02:48:27,140 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:27] "GET /health HTTP/1.1" 200 -
+2025-07-04 02:48:27,141 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:27] "GET /socket.io/?EIO=4&transport=polling&t=PVHdc40 HTTP/1.1" 200 -
+2025-07-04 02:48:27,154 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:27] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-04 02:48:27,157 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:27] "POST /socket.io/?EIO=4&transport=polling&t=PVHdc49&sid=DDBTghanckusGf-oAAAA HTTP/1.1" 200 -
+2025-07-04 02:48:27,160 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:27] "GET /socket.io/?EIO=4&transport=polling&t=PVHdc4A&sid=DDBTghanckusGf-oAAAA HTTP/1.1" 200 -
+2025-07-04 02:48:27,181 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:27] "GET /socket.io/?EIO=4&transport=polling&t=PVHdc4g&sid=DDBTghanckusGf-oAAAA HTTP/1.1" 200 -
+2025-07-04 02:48:29,147 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:29] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:48:31,147 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:31] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:48:33,140 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:33] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:48:35,143 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:35] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:48:37,145 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:37] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:48:39,143 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:39] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:48:41,144 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:41] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:48:43,143 - INFO - 127.0.0.1 - - [04/Jul/2025 02:48:43] "GET /status HTTP/1.1" 200 -
