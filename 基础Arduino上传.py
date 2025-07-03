@@ -7,6 +7,7 @@ import logging
 from datetime import datetime
 from flask import Flask, request, Response, jsonify, render_template, send_from_directory
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 import threading
 import queue
 import requests
@@ -15,6 +16,7 @@ import json
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 CORS(app)  # 启用CORS支持
+socketio = SocketIO(app, cors_allowed_origins="*")  # 启用WebSocket支持
 
 # 配置日志
 logging.basicConfig(
@@ -38,11 +40,20 @@ operation_status = {
 }
 
 def log_message(message):
-    """将消息添加到队列并打印到控制台"""
+    """将消息添加到队列并通过WebSocket发送"""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     formatted_message = f"[{timestamp}] {message}"
     print(formatted_message)
     logger.info(message)
+
+    # 通过WebSocket发送日志
+    socketio.emit('log_message', {
+        'message': formatted_message,
+        'timestamp': timestamp,
+        'raw_message': message
+    })
+
+    # 保留队列用于其他用途
     output_queue.put(formatted_message)
 
 def control_arduino_reset(reset=True):
@@ -193,11 +204,24 @@ def perform_arduino_operation(hex_file=None, port='/dev/ttyS7', options=None):
         else:
             log_message("操作失败!")
 
+        # 发送操作完成通知
+        socketio.emit('operation_complete', {
+            'success': success,
+            'message': '操作成功完成!' if success else '操作失败!'
+        })
+
         return success
 
     except Exception as e:
         log_message(f"操作过程中发生异常: {str(e)}")
         logger.exception("Arduino operation failed with exception")
+
+        # 发送操作失败通知
+        socketio.emit('operation_complete', {
+            'success': False,
+            'message': f'操作异常: {str(e)}'
+        })
+
         return False
 
     finally:
@@ -333,37 +357,22 @@ def upload_endpoint():
             elif not options.get('memory_operations'):
                 return jsonify({"error": "No HEX file provided. Please provide either 'hex_url', 'hex_file', or set 'operation_only=true' with memory_operations"}), 400
 
-        # 在新线程中执行上传操作，以便可以流式返回输出
+        # 在新线程中执行上传操作
         threading.Thread(target=perform_arduino_operation,
                         args=(hex_file_path, port, options),
                         name="arduino_operation").start()
 
-        # 返回流式响应
-        return Response(stream_output(), mimetype='text/event-stream',
-                       headers={'Cache-Control': 'no-cache'})
+        # 返回操作开始确认
+        return jsonify({
+            "status": "started",
+            "message": "操作已开始，请查看实时日志"
+        })
 
     except Exception as e:
         logger.exception("Upload endpoint error")
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
 
-def stream_output():
-    """生成器函数，用于流式输出"""
-    while True:
-        try:
-            # 非阻塞方式获取消息
-            message = output_queue.get(block=True, timeout=0.1)
-            yield f"data: {message}\n\n"
-        except queue.Empty:
-            # 检查上传线程是否仍在运行
-            arduino_thread_running = False
-            for t in threading.enumerate():
-                if t.name == "arduino_operation" and t.is_alive():
-                    arduino_thread_running = True
-                    break
-            
-            if not arduino_thread_running and output_queue.empty():
-                yield "data: [COMPLETED]\n\n"
-                break
+
 
 @app.route('/status', methods=['GET'])
 def get_status():
@@ -424,6 +433,27 @@ def get_logs():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# WebSocket 事件处理
+@socketio.on('connect')
+def handle_connect():
+    """客户端连接事件"""
+    print('客户端已连接')
+    emit('connected', {'message': '已连接到Arduino烧录器'})
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    """客户端断开连接事件"""
+    print('客户端已断开连接')
+
+@socketio.on('request_status')
+def handle_status_request():
+    """客户端请求状态"""
+    emit('status_update', {
+        'is_running': operation_status['is_running'],
+        'start_time': operation_status['start_time'].isoformat() if operation_status['start_time'] else None,
+        'operation_type': operation_status['operation_type']
+    })
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='上传程序到Arduino的HTTP服务')
     parser.add_argument('--port', type=int, default=5000, help='HTTP服务器端口 (默认: 5000)')
@@ -431,5 +461,5 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    log_message(f"启动HTTP服务器在 {args.host}:{args.port}")
-    app.run(host=args.host, port=args.port, threaded=True)
+    log_message(f"启动WebSocket服务器在 {args.host}:{args.port}")
+    socketio.run(app, host=args.host, port=args.port, debug=False)

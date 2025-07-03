@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket测试</title>
+</head>
+<body>
+    <h1>Arduino烧录器 WebSocket 测试</h1>
+    <div id="status">连接状态: 未连接</div>
+    <div id="messages" style="border: 1px solid #ccc; height: 300px; overflow-y: auto; padding: 10px; margin: 10px 0;"></div>
+    <button onclick="testUpload()">测试上传</button>
+    <button onclick="clearMessages()">清空消息</button>
+
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script>
+        const socket = io('http://127.0.0.1:5000');
+        const statusDiv = document.getElementById('status');
+        const messagesDiv = document.getElementById('messages');
+
+        function addMessage(message, type = 'info') {
+            const div = document.createElement('div');
+            div.style.color = type === 'error' ? 'red' : type === 'success' ? 'green' : 'black';
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            messagesDiv.appendChild(div);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        socket.on('connect', () => {
+            statusDiv.textContent = '连接状态: 已连接';
+            statusDiv.style.color = 'green';
+            addMessage('WebSocket连接成功', 'success');
+        });
+
+        socket.on('disconnect', () => {
+            statusDiv.textContent = '连接状态: 已断开';
+            statusDiv.style.color = 'red';
+            addMessage('WebSocket连接断开', 'error');
+        });
+
+        socket.on('connected', (data) => {
+            addMessage(`服务器消息: ${data.message}`, 'info');
+        });
+
+        socket.on('log_message', (data) => {
+            addMessage(`日志: ${data.message}`, 'info');
+        });
+
+        socket.on('operation_complete', (data) => {
+            addMessage(`操作完成: ${data.message}`, data.success ? 'success' : 'error');
+        });
+
+        function testUpload() {
+            addMessage('发送测试上传请求...', 'info');
+            fetch('http://127.0.0.1:5000/upload', {
+                method: 'POST',
+                body: new FormData(document.createElement('form'))
+            })
+            .then(response => response.json())
+            .then(data => {
+                addMessage(`API响应: ${data.message || data.error}`, data.error ? 'error' : 'success');
+            })
+            .catch(error => {
+                addMessage(`请求失败: ${error.message}`, 'error');
+            });
+        }
+
+        function clearMessages() {
+            messagesDiv.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

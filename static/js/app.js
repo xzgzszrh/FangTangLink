@@ -1,12 +1,13 @@
 // Arduino 烧录器前端应用
 class ArduinoUploader {
     constructor() {
-        this.eventSource = null;
+        this.socket = null;
         this.isOperating = false;
         this.autoScroll = true;
-        
+
         this.initializeElements();
         this.bindEvents();
+        this.initializeWebSocket();
         this.checkServerStatus();
         this.startStatusPolling();
     }
@@ -92,6 +93,50 @@ class ArduinoUploader {
     preventDefaults(e) {
         e.preventDefault();
         e.stopPropagation();
+    }
+
+    initializeWebSocket() {
+        // 初始化WebSocket连接
+        this.socket = io();
+
+        // 连接成功
+        this.socket.on('connect', () => {
+            console.log('WebSocket连接成功');
+            this.appendLog('WebSocket连接已建立', 'info');
+        });
+
+        // 连接断开
+        this.socket.on('disconnect', () => {
+            console.log('WebSocket连接断开');
+            this.appendLog('WebSocket连接已断开', 'warning');
+        });
+
+        // 接收日志消息
+        this.socket.on('log_message', (data) => {
+            this.appendLog(data.message);
+        });
+
+        // 操作完成通知
+        this.socket.on('operation_complete', (data) => {
+            this.operationComplete(data.success);
+            if (data.message) {
+                this.appendLog(data.message, data.success ? 'success' : 'error');
+            }
+        });
+
+        // 状态更新
+        this.socket.on('status_update', (data) => {
+            if (data.is_running && !this.isOperating) {
+                this.isOperating = true;
+                this.updateStatus('操作进行中', 'uploading');
+                this.setButtonsEnabled(false);
+            }
+        });
+
+        // 连接确认
+        this.socket.on('connected', (data) => {
+            this.appendLog(data.message, 'info');
+        });
     }
 
     async checkServerStatus() {
@@ -261,37 +306,22 @@ class ArduinoUploader {
                 method: 'POST',
                 body: formData
             });
-            
+
             if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                const errorData = await response.json();
+                throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
             }
-            
-            this.eventSource = new EventSource('/upload?' + new URLSearchParams(formData));
-            this.setupEventSource();
-            
+
+            const result = await response.json();
+            this.appendLog(result.message || '操作已开始', 'info');
+
         } catch (error) {
             this.appendLog(`操作失败: ${error.message}`, 'error');
             this.operationComplete(false);
         }
     }
 
-    setupEventSource() {
-        this.eventSource.onmessage = (event) => {
-            const data = event.data;
-            
-            if (data === '[COMPLETED]') {
-                this.operationComplete(true);
-            } else {
-                this.appendLog(data);
-                this.updateProgress(data);
-            }
-        };
-        
-        this.eventSource.onerror = () => {
-            this.appendLog('连接错误或操作失败', 'error');
-            this.operationComplete(false);
-        };
-    }
+
 
     updateProgress(message) {
         // 简单的进度估算
@@ -307,14 +337,9 @@ class ArduinoUploader {
     }
 
     operationComplete(success) {
-        if (this.eventSource) {
-            this.eventSource.close();
-            this.eventSource = null;
-        }
-        
         this.isOperating = false;
         this.setButtonsEnabled(true);
-        
+
         if (success) {
             this.updateStatus('操作完成', 'success');
             this.progressBar.style.width = '100%';

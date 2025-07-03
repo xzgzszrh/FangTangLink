@@ -115,3 +115,69 @@ FileNotFoundError: [Errno 2] No such file or directory: 'gpio'
 2025-07-04 01:32:19,791 - INFO - 127.0.0.1 - - [04/Jul/2025 01:32:19] "GET /status HTTP/1.1" 200 -
 2025-07-04 01:32:21,793 - INFO - 127.0.0.1 - - [04/Jul/2025 01:32:21] "GET /status HTTP/1.1" 200 -
 2025-07-04 01:33:04,786 - INFO - 127.0.0.1 - - [04/Jul/2025 01:33:04] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:35:32,350 - INFO - 启动WebSocket服务器在 127.0.0.1:5000
+2025-07-04 02:35:32,357 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-04 02:35:32,357 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-04 02:35:47,502 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:47] "GET /health HTTP/1.1" 200 -
+2025-07-04 02:35:52,798 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:52] "GET / HTTP/1.1" 200 -
+2025-07-04 02:35:52,837 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:52] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-07-04 02:35:52,837 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:52] "GET /static/js/app.js HTTP/1.1" 200 -
+2025-07-04 02:35:53,932 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:53] "GET /socket.io/?EIO=4&transport=polling&t=PVHakBA HTTP/1.1" 200 -
+2025-07-04 02:35:53,938 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:53] "GET /health HTTP/1.1" 200 -
+2025-07-04 02:35:53,960 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:53] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-04 02:35:53,961 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:53] "POST /socket.io/?EIO=4&transport=polling&t=PVHakBV&sid=Ofs5V37HCI1moDUqAAAA HTTP/1.1" 200 -
+2025-07-04 02:35:53,964 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:53] "GET /socket.io/?EIO=4&transport=polling&t=PVHakBW&sid=Ofs5V37HCI1moDUqAAAA HTTP/1.1" 200 -
+2025-07-04 02:35:53,982 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:53] "GET /socket.io/?EIO=4&transport=polling&t=PVHakBk&sid=Ofs5V37HCI1moDUqAAAA HTTP/1.1" 200 -
+2025-07-04 02:35:55,940 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:55] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:35:57,937 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:57] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:35:59,610 - INFO - 已接收上传的文件: test_firmware.hex
+2025-07-04 02:35:59,611 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:59] "POST /upload HTTP/1.1" 200 -
+2025-07-04 02:35:59,611 - INFO - 开始上传程序到Arduino...
+2025-07-04 02:35:59,619 - INFO - 操作过程中发生异常: [Errno 2] No such file or directory: 'gpio'
+2025-07-04 02:35:59,619 - ERROR - Arduino operation failed with exception
+Traceback (most recent call last):
+  File "/Users/raspberry/Documents/Develop/FangTangLink/基础Arduino上传.py", line 179, in perform_arduino_operation
+    if not control_arduino_reset(reset=True):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/raspberry/Documents/Develop/FangTangLink/基础Arduino上传.py", line 69, in control_arduino_reset
+    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/opencv/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/opencv/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/opt/anaconda3/envs/opencv/lib/python3.12/subprocess.py", line 1953, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'gpio'
+2025-07-04 02:35:59,622 - INFO - 已清理临时文件: /var/folders/05/2pk63z812dgfhrkcjf35g8qc0000gn/T/1751567759_test_firmware.hex
+2025-07-04 02:35:59,937 - INFO - 127.0.0.1 - - [04/Jul/2025 02:35:59] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:01,938 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:01] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:03,934 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:03] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:05,940 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:05] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:07,938 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:07] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:09,944 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:09] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:11,939 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:11] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:13,934 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:13] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:15,938 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:15] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:17,938 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:17] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:19,937 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:19] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:21,938 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:21] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:23,938 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:23] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:25,934 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:25] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:27,936 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:27] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:29,568 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:29] "GET /socket.io/?EIO=4&transport=polling&t=PVHastw HTTP/1.1" 200 -
+2025-07-04 02:36:29,572 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:29] "POST /socket.io/?EIO=4&transport=polling&t=PVHasu2&sid=WicZtTmCprDJ_an7AAAC HTTP/1.1" 200 -
+2025-07-04 02:36:29,583 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:29] "GET /socket.io/?EIO=4&transport=polling&t=PVHasu3&sid=WicZtTmCprDJ_an7AAAC HTTP/1.1" 200 -
+2025-07-04 02:36:29,611 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:29] "GET /socket.io/?EIO=4&transport=polling&t=PVHasuf&sid=WicZtTmCprDJ_an7AAAC HTTP/1.1" 200 -
+2025-07-04 02:36:30,128 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:30] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:32,049 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:32] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:34,121 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:34] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:35,497 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:35] "[31m[1mPOST /upload HTTP/1.1[0m" 400 -
+2025-07-04 02:36:36,124 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:36] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:36,329 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:36] "[31m[1mPOST /upload HTTP/1.1[0m" 400 -
+2025-07-04 02:36:36,734 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:36] "[31m[1mPOST /upload HTTP/1.1[0m" 400 -
+2025-07-04 02:36:38,126 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:38] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:40,121 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:40] "GET /status HTTP/1.1" 200 -
+2025-07-04 02:36:42,127 - INFO - 127.0.0.1 - - [04/Jul/2025 02:36:42] "GET /status HTTP/1.1" 200 -

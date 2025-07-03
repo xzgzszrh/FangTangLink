@@ -2,9 +2,10 @@
 
 ## 概述
 
-Arduino 烧录器是一个基于 Flask 的 Web 服务，允许通过 HTTP API 对 Arduino 设备进行程序烧录、全片擦除等操作。支持实时日志流式输出，便于监控操作进程。
+Arduino 烧录器是一个基于 Flask 和 WebSocket 的 Web 服务，允许通过 HTTP API 对 Arduino 设备进行程序烧录、全片擦除等操作。使用 WebSocket 提供实时日志输出，便于监控操作进程。
 
 **服务地址**: `http://localhost:5000` (默认)
+**WebSocket地址**: `ws://localhost:5000/socket.io/` (自动)
 
 ## 认证
 
@@ -137,10 +138,15 @@ Arduino 烧录器是一个基于 Flask 的 Web 服务，允许通过 HTTP API �
 - `extended_params` (array): 扩展参数列表
 - `memory_operations` (array): 内存操作列表
 
-**响应**: 
-- Content-Type: `text/event-stream`
-- 实时流式输出操作日志
-- 操作完成时发送 `[COMPLETED]`
+**响应**:
+```json
+{
+    "status": "started",
+    "message": "操作已开始，请查看实时日志"
+}
+```
+
+**实时日志**: 通过 WebSocket 发送，详见 WebSocket 事件部分
 
 **示例**:
 
@@ -206,6 +212,57 @@ curl -X POST http://localhost:5000/upload \
 }
 ```
 
+## WebSocket 事件
+
+### 客户端事件
+
+#### connect
+客户端连接到服务器时触发。
+
+#### disconnect
+客户端断开连接时触发。
+
+#### request_status
+请求当前操作状态。
+
+### 服务器事件
+
+#### connected
+```json
+{
+    "message": "已连接到Arduino烧录器"
+}
+```
+
+#### log_message
+实时日志消息。
+```json
+{
+    "message": "[2024-01-01 12:00:00] 开始上传程序到Arduino...",
+    "timestamp": "2024-01-01 12:00:00",
+    "raw_message": "开始上传程序到Arduino..."
+}
+```
+
+#### operation_complete
+操作完成通知。
+```json
+{
+    "success": true,
+    "message": "操作成功完成!"
+}
+```
+
+#### status_update
+状态更新通知。
+```json
+{
+    "is_running": false,
+    "start_time": "2024-01-01T12:00:00",
+    "operation_type": "上传程序"
+}
+```
+
 ## 错误代码
 
 - `400 Bad Request`: 请求参数错误
@@ -217,22 +274,34 @@ curl -X POST http://localhost:5000/upload \
 ### JavaScript (前端)
 
 ```javascript
+// 初始化WebSocket连接
+const socket = io();
+
+// 监听日志消息
+socket.on('log_message', (data) => {
+    console.log('日志:', data.message);
+});
+
+// 监听操作完成
+socket.on('operation_complete', (data) => {
+    console.log('操作完成:', data.success ? '成功' : '失败');
+    console.log('消息:', data.message);
+});
+
 // 上传文件
 const formData = new FormData();
 formData.append('hex_file', fileInput.files[0]);
 formData.append('port', '/dev/ttyS7');
 formData.append('verbose', 'true');
 
-const eventSource = new EventSource('/upload?' + new URLSearchParams(formData));
-
-eventSource.onmessage = function(event) {
-    if (event.data === '[COMPLETED]') {
-        console.log('操作完成');
-        eventSource.close();
-    } else {
-        console.log('日志:', event.data);
-    }
-};
+fetch('/upload', {
+    method: 'POST',
+    body: formData
+})
+.then(response => response.json())
+.then(data => {
+    console.log('上传开始:', data.message);
+});
 ```
 
 ### Python 客户端
